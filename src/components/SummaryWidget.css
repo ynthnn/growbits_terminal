@@ -1,0 +1,127 @@
+.summary-wrapper {
+  padding: 15px;
+  color: white;
+  font-family: var(--font-sans);
+  height: 100%;
+  overflow-y: auto;
+}
+
+.summary-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.summary-header-row h3 {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.edit-btn {
+  background-color: transparent;
+  color: var(--accent-color);
+  border: 1px solid var(--accent-color);
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.2s;
+}
+
+.edit-btn:hover {
+  background-color: var(--accent-color);
+  color: black;
+}
+
+.summary-card {
+  border: 1px solid var(--accent-color);
+  border-radius: 6px;
+  padding: 10px;
+  background-color: #050505;
+}
+
+.summary-table {
+  display: flex;
+  flex-direction: column;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 5px;
+  border-bottom: 1px solid #222;
+}
+
+.summary-row:last-child {
+  border-bottom: none;
+}
+
+.summary-row.header {
+  font-weight: 600;
+  border-bottom: 1px solid #444;
+}
+
+.summary-row.footer {
+  margin-top: 10px;
+  padding-top: 15px;
+  border-top: 1px solid #444;
+}
+
+.summary-row span {
+  flex: 1;
+  text-align: center;
+}
+
+.summary-row span:first-child {
+  text-align: left;
+}
+
+.summary-row span:last-child {
+  text-align: right;
+}
+
+.stars {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.edit-panel {
+  display: flex;
+  gap: 10px;
+  padding-bottom: 15px;
+  margin-bottom: 15px;
+  border-bottom: 1px dashed #444;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.edit-panel label {
+  display: flex;
+  flex-direction: column;
+  font-size: 12px;
+  color: #ccc;
+}
+
+.edit-panel input {
+  background: #222;
+  border: 1px solid #444;
+  color: white;
+  padding: 5px;
+  border-radius: 3px;
+  margin-top: 4px;
+  width: 80px;
+}
+
+.edit-panel button {
+  background-color: var(--accent-color);
+  color: black;
+  border: none;
+  padding: 5px 12px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-top: 16px;
+}
