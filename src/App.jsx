@@ -9,13 +9,13 @@ import './index.css';
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
 const DEFAULT_LAYOUT = [
-  { i: 'chart', x: 0, y: 0, w: 6, h: 14 },
+  { i: 'chart', x: 0, y: 0, w: 6, h: 10 },
   { i: 'fg', x: 6, y: 0, w: 2, h: 10 },
   { i: 'calendar', x: 8, y: 0, w: 4, h: 10 },
-  { i: 'summary', x: 0, y: 14, w: 4, h: 10 },
-  { i: 'etf', x: 6, y: 10, w: 3, h: 4 },
-  { i: 'rsi', x: 9, y: 10, w: 3, h: 4 },
-  { i: 'mvrv', x: 4, y: 14, w: 4, h: 10 },
+  { i: 'etf', x: 0, y: 10, w: 6, h: 4 },
+  { i: 'rsi', x: 6, y: 10, w: 6, h: 4 },
+  { i: 'mvrv', x: 0, y: 14, w: 4, h: 10 },
+  { i: 'summary', x: 4, y: 14, w: 4, h: 10 },
   { i: 'sopr', x: 8, y: 14, w: 4, h: 10 },
 ];
 
@@ -34,7 +34,7 @@ function App() {
   const [layout, setLayout] = useState(DEFAULT_LAYOUT);
 
   useEffect(() => {
-    const savedLayout = localStorage.getItem('growbits_terminal_layout');
+    const savedLayout = localStorage.getItem('growbits_terminal_layout_v2');
     if (savedLayout) {
       try {
         setLayout(JSON.parse(savedLayout));
@@ -46,7 +46,7 @@ function App() {
 
   const onLayoutChange = (newLayout) => {
     setLayout(newLayout);
-    localStorage.setItem('growbits_terminal_layout', JSON.stringify(newLayout));
+    localStorage.setItem('growbits_terminal_layout_v2', JSON.stringify(newLayout));
   };
 
   return (

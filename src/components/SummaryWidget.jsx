@@ -42,6 +42,7 @@ const SummaryWidget = () => {
   const [dateStr, setDateStr] = useState('');
   
   const [isEditing, setIsEditing] = useState(false);
+  const [tempRsi, setTempRsi] = useState(50);
   const [tempMvrv, setTempMvrv] = useState(0.5);
   const [tempSopr, setTempSopr] = useState(0.95);
 
@@ -51,33 +52,19 @@ const SummaryWidget = () => {
     const options = { day: '2-digit', month: 'short', year: 'numeric' };
     setDateStr(d.toLocaleDateString('en-GB', options));
 
-    const loadMvrvSopr = () => {
+    const loadManualData = () => {
+      const savedRsi = localStorage.getItem('gb_rsi');
       const savedMvrv = localStorage.getItem('gb_mvrv');
       const savedSopr = localStorage.getItem('gb_sopr');
+      if (savedRsi) { setRsi(parseFloat(savedRsi)); setTempRsi(parseFloat(savedRsi)); }
       if (savedMvrv) { setMvrv(parseFloat(savedMvrv)); setTempMvrv(parseFloat(savedMvrv)); }
       if (savedSopr) { setSopr(parseFloat(savedSopr)); setTempSopr(parseFloat(savedSopr)); }
     };
-    loadMvrvSopr();
+    loadManualData();
 
     const fetchAPI = async () => {
       try {
-        // Fetch RSI via Binance 14D standard calculation using daily klinedata
-        const bRes = await fetch('https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1d&limit=15');
-        const bData = await bRes.json();
-        let gains = 0; let losses = 0;
-        for (let i = 1; i < bData.length; i++) {
-          const close = parseFloat(bData[i][4]);
-          const prevClose = parseFloat(bData[i-1][4]);
-          const change = close - prevClose;
-          if (change > 0) gains += change;
-          else losses -= change;
-        }
-        const avgGain = gains / 14;
-        const avgLoss = losses / 14;
-        const rs = avgLoss === 0 ? 100 : avgGain / avgLoss;
-        const calculatedRsi = 100 - (100 / (1 + rs));
-        setRsi(Math.round(calculatedRsi));
-
+        // Fetch FnG (RSI is now manual)
         // Fetch FnG
         const fRes = await fetch('https://api.alternative.me/fng/');
         const fData = await fRes.json();
@@ -90,8 +77,10 @@ const SummaryWidget = () => {
   }, []);
 
   const handleSaveManual = () => {
+    setRsi(parseFloat(tempRsi));
     setMvrv(parseFloat(tempMvrv));
     setSopr(parseFloat(tempSopr));
+    localStorage.setItem('gb_rsi', tempRsi);
     localStorage.setItem('gb_mvrv', tempMvrv);
     localStorage.setItem('gb_sopr', tempSopr);
     setIsEditing(false);
@@ -116,13 +105,14 @@ const SummaryWidget = () => {
       <div className="summary-header-row">
         <h3>Summary : {dateStr}</h3>
         <button className="edit-btn" onClick={() => setIsEditing(!isEditing)}>
-          {isEditing ? 'Batal' : 'Edit MVRV/SOPR'}
+          {isEditing ? 'Batal' : 'Edit RSI/MVRV/SOPR'}
         </button>
       </div>
 
       <div className="summary-card">
         {isEditing && (
           <div className="edit-panel">
+            <label>RSI: <input type="number" step="0.1" value={tempRsi} onChange={(e) => setTempRsi(e.target.value)} /></label>
             <label>MVRV-Z: <input type="number" step="0.1" value={tempMvrv} onChange={(e) => setTempMvrv(e.target.value)} /></label>
             <label>SOPR: <input type="number" step="0.01" value={tempSopr} onChange={(e) => setTempSopr(e.target.value)} /></label>
             <button onClick={handleSaveManual}>Simpan</button>
